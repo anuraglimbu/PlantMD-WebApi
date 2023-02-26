@@ -1,4 +1,6 @@
 fastapi==0.92.0
+python-multipart
+aiofiles
 uvicorn[standard]
 python-dotenv
 

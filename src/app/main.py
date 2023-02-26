@@ -1,14 +1,15 @@
 from fastapi import FastAPI
 
-from app.api import base, inference
-from app.database.db import engine, database, metadata
+from app.api import base, inference, image
+from app.database.db import engine, database
+from app.database.structures import metadata
 
 metadata.create_all(engine)
 
 app = FastAPI(
     title="PlantMD API",
     description="API to interact with the underlying prediction model of PlantMD",
-    version="v0.1"
+    version="v0.1.0"
 )
 
 '''
@@ -29,3 +30,5 @@ async def shutdown():
 app.include_router(base.router, tags=["Base"])
 
 app.include_router(inference.router, prefix="/inference", tags=["Inference"])
+
+app.include_router(image.router, prefix="/image", tags=["Image"])

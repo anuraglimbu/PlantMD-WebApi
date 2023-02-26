@@ -12,5 +12,5 @@ def root():
     }
 
 @router.get("/ping")
-def pong():
+def ping():
     return {"status":"online"}
