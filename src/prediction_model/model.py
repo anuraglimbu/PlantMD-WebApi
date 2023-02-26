@@ -141,12 +141,13 @@ def plot_image_multiple(image, bboxes, probs, labels):
         cv2.putText(img=image, text=str(prob), org=(bbox[0], bbox[1]), fontFace=cv2.FONT_HERSHEY_SIMPLEX, fontScale=0.4, color=( 255,0, 0),thickness=1)
         cv2.putText(img=image, text=str(label), org=(bbox[0] + 30, bbox[1]), fontFace=cv2.FONT_HERSHEY_SIMPLEX, fontScale=0.4, color=(255, 0, 0),thickness=1)
     #logger.info("Ended plot_image_multiple")
+    image = cv2.cvtColor(image, cv2.COLOR_BGR2RGB)
     return Image.fromarray(image)
 
 def main(img_path, model_path, config_file, save_location, save_file_name, **kwargs):
   #logger.info("Started Inference")
   if not os.path.exists(save_location):
-    logger.info(f"Directory {save_location} doesn't exist, creating the directory.")
+    #logger.info(f"Directory {save_location} doesn't exist, creating the directory.")
     os.makedirs(f"{save_location}", exist_ok=True)
   save_path = os.path.join(save_location, save_file_name)
   with open(config_file, 'r') as file:
