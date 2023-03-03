@@ -77,6 +77,7 @@ def get_model_data(model_path, image_lists):
     image_dict = {}
     p_image_list = []
     ratio_dwdh = []
+    inname =[]
     for img in image_lists:
         img = cv2.cvtColor(img, cv2.COLOR_BGR2RGB)
         image = img.copy()
@@ -131,8 +132,8 @@ def post_process_output(batch_outputs, r_dwdh, img_list):
 
 def plot_image_multiple(image, bboxes, probs, labels):
     #logger.info("Started plot_image_multiple")
-    for bbox, prob, label in zip(bboxes, probs, labels): 
-        bbox = list(map(int, bbox))  
+    for bbox, prob, label in zip(bboxes, probs, labels):
+        bbox = list(map(int, bbox))
         prob = round(prob,2)
         start_p =(int(bbox[0] ), int(bbox[1] ))
         end_p = (int(bbox[2]), int(bbox[3]))
@@ -141,7 +142,7 @@ def plot_image_multiple(image, bboxes, probs, labels):
         cv2.putText(img=image, text=str(prob), org=(bbox[0], bbox[1]), fontFace=cv2.FONT_HERSHEY_SIMPLEX, fontScale=0.4, color=( 255,0, 0),thickness=1)
         cv2.putText(img=image, text=str(label), org=(bbox[0] + 30, bbox[1]), fontFace=cv2.FONT_HERSHEY_SIMPLEX, fontScale=0.4, color=(255, 0, 0),thickness=1)
     #logger.info("Ended plot_image_multiple")
-    image = cv2.cvtColor(image, cv2.COLOR_BGR2RGB)
+    image = cv2.cvtColor(image, cv2.COLOR_BGR2RGB) # cv2 uses BGR so changing it to RGB before saving using PIL
     return Image.fromarray(image)
 
 def main(img_path, model_path, config_file, save_location, save_file_name, **kwargs):

@@ -1,4 +1,6 @@
-from fastapi import APIRouter
+from fastapi import APIRouter, Depends
+
+from app.auth.base import get_current_active_device
 
 router=APIRouter()
 
@@ -12,5 +14,8 @@ def root():
     }
 
 @router.get("/ping")
-def ping():
-    return {"status":"online"}
+def ping(current_device = Depends(get_current_active_device)):
+    return {
+        "status": "online",
+        "device_id": current_device.identifier
+    }

@@ -14,7 +14,7 @@ HOST = os.getenv("DATABASE_HOST")
 PORT = os.getenv("DATABASE_PORT")
 DATABASE = os.getenv("DATABASE")
 
-DATABASE_URL = "postgresql+psycopg2://"+USERNAME +":"+PASSWORD+"@"+HOST+":"+PORT+"/"+DATABASE
+DATABASE_URL = f"postgresql+psycopg2://{USERNAME}:{PASSWORD}@{HOST}:{PORT}/{DATABASE}" 
 
 # Generating database models according to the URL passed
 engine = create_engine(DATABASE_URL)
