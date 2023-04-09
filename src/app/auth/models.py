@@ -20,7 +20,6 @@ class RequestTokenForm:
         password: str = Form(),
         scope: str = Form(default=""),
     ):
-        super.username
         self.grant_type = grant_type
         self.username = username
         self.password = password
