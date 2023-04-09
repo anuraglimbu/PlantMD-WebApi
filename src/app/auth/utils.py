@@ -5,7 +5,7 @@ from secrets import token_hex
 from fastapi import HTTPException, status
 from jose import jwt
 
-from app.api.models.identifiers import IdentifierInDB, Identifier
+from app.api.models.identifiers import IdentifierInDB, IdentifierSchema
 from app.auth.models import VerificationToken
 
 from app.database.crud import verification_tokens, identifiers
@@ -35,7 +35,7 @@ async def create_device(verification_token_id: int, hex_value: int):
         temp_identifier = await identifiers.get(generated_identifier)
         if not temp_identifier:
             break
-    payload = Identifier(
+    payload = IdentifierSchema(
         identifier = generated_identifier,
         verification_token_id = verification_token_id,
         disabled = False

@@ -1,7 +1,8 @@
 from datetime import datetime
-from typing import Union
+from typing import Union, Optional
 
-from pydantic import BaseModel, Field
+from pydantic import BaseModel
+from fastapi.param_functions import Form
 
 class AccessToken(BaseModel):
     access_token: str
@@ -11,9 +12,19 @@ class AccessToken(BaseModel):
 class TokenData(BaseModel):
     identifier: Union[str, None] = None
 
-class RequestTokenForm(BaseModel):
-    verification_token: str = Field(..., min_length=24, max_length=100)
-    identifier: Union[str, None] = Field(default=None, min_length=8, max_length=100)
+class RequestTokenForm:
+    def __init__(
+        self,
+        grant_type: str = Form(default=None, regex="password"),
+        username: Optional[str] = Form(default=None),
+        password: str = Form(),
+        scope: str = Form(default=""),
+    ):
+        super.username
+        self.grant_type = grant_type
+        self.username = username
+        self.password = password
+        self.scopes = scope.split()
 
 class VerificationToken(BaseModel):
     id: int

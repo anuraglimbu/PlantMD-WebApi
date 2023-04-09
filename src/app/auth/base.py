@@ -21,7 +21,7 @@ ACCESS_TOKEN_EXPIRE_MINUTES = int(os.getenv("JWT_ACCESS_TOKEN_EXPIRE_MINUTES"))
 IDENTIFIER_HEX_VALUE = int(os.getenv("IDENTIFIER_HEX_VALUE"))
 
 oauth2_scheme = OAuth2PasswordBearer(tokenUrl="token")
-    
+
 async def get_current_device(token: str = Depends(oauth2_scheme)):
     credentials_exception = HTTPException(
         status_code=status.HTTP_401_UNAUTHORIZED,

@@ -1,9 +1,9 @@
 from app.database.db import database
 from app.database.structures import identifiers
 
-from app.api.models.identifiers import Identifier
+from app.api.models.identifiers import IdentifierSchema
 
-async def create(payload: Identifier):
+async def create(payload: IdentifierSchema):
     query = identifiers.insert().values(
         identifier=payload.identifier,
         verification_token_id=payload.verification_token_id,
@@ -23,7 +23,7 @@ async def get_all():
     query = identifiers.select()
     return await database.fetch_all(query=query)
 
-async def update(identifier: str, payload: Identifier):
+async def update(identifier: str, payload: IdentifierSchema):
     query = (
         identifiers
         .update()

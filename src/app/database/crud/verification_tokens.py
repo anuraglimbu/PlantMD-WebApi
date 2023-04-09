@@ -1,9 +1,9 @@
 from app.database.db import database
 from app.database.structures import verification_tokens
 
-from app.api.models.verification_tokens import VerificationToken, VerificationTokenDB
+from app.api.models.verification_tokens import VerificationTokenSchema, VerificationTokenDB
 
-async def create(payload: VerificationToken):
+async def create(payload: VerificationTokenSchema):
     query = verification_tokens.insert().values(
         token = payload.token, 
         name = payload.name, 
