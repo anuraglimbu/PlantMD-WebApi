@@ -3,8 +3,11 @@ import datetime
 from dotenv import load_dotenv
 import aiofiles
 
-from fastapi import APIRouter, File, UploadFile, HTTPException, status
+from fastapi import APIRouter, File, UploadFile, Depends, HTTPException, status
 from prediction_model import model
+
+from app.api.models.identifiers import IdentifierInDB
+from app.auth.base import get_current_active_device
 
 load_dotenv()
 router = APIRouter()
@@ -21,13 +24,8 @@ IMAGE_FOLDER = os.getenv("IMAGE_FOLDER")
 MODEL_CONFIG_PATH = os.getenv("MODEL_CONFIG_LOCATION")
 MODEL_PATH = os.path.join(os.getenv("MODEL_LOCATION"), "model.onnx")
 
-
-@router.get("/")
-def inference_root():
-    return {"location":"inference"}
-
 @router.post("/")
-async def create_inference(file: UploadFile = File(..., description="The image file to be predicted")):
+async def create_inference(file: UploadFile = File(..., description="The image file to be predicted"), current_user: IdentifierInDB = Depends(get_current_active_device)):
     if not file:
         raise HTTPException(status_code=status.HTTP_422_UNPROCESSABLE_ENTITY, detail="Must provide a file")
     
