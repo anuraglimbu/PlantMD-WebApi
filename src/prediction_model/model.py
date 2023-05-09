@@ -122,6 +122,8 @@ def post_process_output(batch_outputs, r_dwdh, img_list):
             cls_id = int(cls_id)
             score = round(float(score), 2)
             inter_output.append([page_no, cls_id, score, box])
+        # conside those prediction with confidence greater than or equal to 0.45.
+        inter_output = list(filter(lambda x: x[2] >= 0.45, inter_output))
         # bboxes = [box[3] for box in inter_output]
         # if bboxes:
         #     labels = get_classification_label(classification_model_path,img_list[id_],bboxes)
