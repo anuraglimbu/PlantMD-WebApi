@@ -20,6 +20,8 @@ router = APIRouter()
 all_treatments = json.load(open(os.getenv("TREATMENTS_JSON_FILE")))
 
 SUPPORTED_FORMATS = [
+    "application/octet-stream",
+    "image/jpg",
     "image/jpeg",
     "image/png",
     #"image/heic"
