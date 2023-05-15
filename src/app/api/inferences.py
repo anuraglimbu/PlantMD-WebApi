@@ -38,7 +38,7 @@ async def create_inference(file: UploadFile = File(..., description="The image f
         raise HTTPException(status_code=status.HTTP_422_UNPROCESSABLE_ENTITY, detail="Must provide a file")
     
     if file.content_type not in SUPPORTED_FORMATS:
-        raise HTTPException(status_code=status.HTTP_422_UNPROCESSABLE_ENTITY, detail="This file format is not supported")
+        raise HTTPException(status_code=status.HTTP_422_UNPROCESSABLE_ENTITY, detail="This file format "+ file.content_type +" is not supported")
     
     filename = file.filename.split(".")
     extension = filename.pop()
