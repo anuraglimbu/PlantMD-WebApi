@@ -10,7 +10,7 @@ load_dotenv()
 router = APIRouter()
 
 @router.get("/{image_name}", status_code=status.HTTP_200_OK)
-async def get_image(image_name: str = Path(..., title="Name of image file to retrieve"), current_user = Depends(get_current_active_device)):
+async def get_image(image_name: str = Path(..., title="Name of image file to retrieve")):
     if not image_name:
         raise HTTPException(status_code=status.HTTP_422_UNPROCESSABLE_ENTITY, detail="Must pass the name")
     

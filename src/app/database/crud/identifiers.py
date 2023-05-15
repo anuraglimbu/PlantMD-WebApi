@@ -5,9 +5,9 @@ from app.api.models.identifiers import IdentifierSchema
 
 async def create(payload: IdentifierSchema):
     query = identifiers.insert().values(
-        identifier=payload.identifier,
-        verification_token_id=payload.verification_token_id,
-        disabled=payload.disabled
+        identifier = payload.identifier,
+        verification_token_id = payload.verification_token_id,
+        disabled = payload.disabled
     ).returning(identifiers.c.identifier)
     return await database.execute(query=query)
 

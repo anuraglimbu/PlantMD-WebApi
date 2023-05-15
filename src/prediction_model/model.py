@@ -122,8 +122,9 @@ def post_process_output(batch_outputs, r_dwdh, img_list):
             cls_id = int(cls_id)
             score = round(float(score), 2)
             inter_output.append([page_no, cls_id, score, box])
-        # conside those prediction with confidence greater than or equal to 0.45.
+        # consider those prediction with confidence greater than or equal to 0.45.
         inter_output = list(filter(lambda x: x[2] >= 0.45, inter_output))
+        #logger.info(inter_output)
         # bboxes = [box[3] for box in inter_output]
         # if bboxes:
         #     labels = get_classification_label(classification_model_path,img_list[id_],bboxes)
@@ -159,19 +160,23 @@ def main(img_path, model_path, config_file, save_location, save_file_name, **kwa
   img = cv2.imread(img_path)
   img_list = [img] 
   image_data, ratio_dwdh, model = get_model_data(model_path, img_list)
+  #logger.info(image_data)
   outname = [i.name for i in model.get_outputs()]
   outputs = model.run(outname, image_data)[0]
+  #logger.info(outputs)
   batch_outputs = get_batch_output(outputs, img_list)
   p_outputs = post_process_output(batch_outputs, ratio_dwdh, img_list)
   l_bboxes = p_outputs[0].get('image_0')
   bboxes = [box[3] for box in l_bboxes]
   classes = [label[box[1]] for box in l_bboxes]
+  #logger.info(classes)
   confidences = [box[2] for box in l_bboxes]
+  #logger.info(confidences)
   infer_img = plot_image_multiple(img, bboxes, confidences, classes)
   infer_img.save(f"{save_path}.png")
   #logger.info("Ended Inference")
   #logger.info(f"Inferred Image saved at location {save_path}.png")
-  return None
+  return classes, confidences
 
 if __name__ == "__main__":
   #logger.info("Entry Point of Main")

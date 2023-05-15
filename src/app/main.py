@@ -9,7 +9,7 @@ metadata.create_all(engine)
 app = FastAPI(
     title="PlantMD API",
     description="API to interact with the underlying prediction model of PlantMD",
-    version="v0.2.0"
+    version="v0.5.0"
 )
 
 '''
@@ -32,6 +32,6 @@ app.include_router(token.router, tags=["Authenticate"])
 
 app.include_router(devices.router, prefix="/devices", tags=["Devices"])
 
-app.include_router(inferences.router, prefix="/inferences", tags=["Inference"])
+app.include_router(inferences.router, prefix="/inferences", tags=["Inferences"])
 
-app.include_router(images.router, prefix="/images", tags=["Image"])
+app.include_router(images.router, prefix="/images", tags=["Images"])
