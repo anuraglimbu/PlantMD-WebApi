@@ -1,4 +1,5 @@
 from fastapi import FastAPI
+from fastapi.middleware.cors import CORSMiddleware
 
 from app.api import base, images, inferences, token, devices
 from app.database.db import engine, database
@@ -11,6 +12,19 @@ app = FastAPI(
     description="API to interact with the underlying prediction model of PlantMD",
     version="v0.5.0"
 )
+
+origins = [
+    "*",
+]
+
+app.add_middleware(
+    CORSMiddleware,
+    allow_origins=origins,
+    allow_credentials=True,
+    allow_methods=["*"],
+    allow_headers=["*"],
+)
+
 
 '''
     Establishing connection to the database when the server starts and disconnecting on shutdown
