@@ -47,8 +47,11 @@ async def create_inference(file: UploadFile = File(..., description="The image f
     randomName =  str(datetime.datetime.now().date()) + '_' + str(datetime.datetime.now().time()).replace(':', '') + "-"  + ".".replace(' ','_')
     originalFileName = randomName + "." + extension
     resultFileName = randomName + "-result"
-
+    
     imagePath = os.path.join(IMAGE_FOLDER, originalFileName)
+
+    if not os.path.exists(IMAGE_FOLDER):
+        os.mkdir(IMAGE_FOLDER)
 
     async with aiofiles.open(imagePath, "wb") as f:
         while chunk := await file.read(DEFAULT_CHUNK_SIZE):
