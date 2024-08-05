@@ -1,0 +1,44 @@
+version: '3.7'
+name: plantmd-api
+
+services:
+  plantmd-api:
+    container_name: plantmd-api
+    depends_on:
+      plantmd-db:
+        condition: service_healthy
+    build:
+      context: .
+    command: make run
+    ports:
+      - "8000:8000"
+    extra_hosts:
+      - "host.docker.internal:host-gateway"
+    volumes:
+      - plantmd-imagestore:/usr/src/imagestore
+
+  plantmd-db:
+    container_name: plantmd-db
+    image: postgres:15
+    ports:
+      - ":5432"
+    user: ${DATABASE_USERNAME}
+    environment:
+      POSTGRES_USER: ${DATABASE_USERNAME}
+      POSTGRES_PASSWORD: ${DATABASE_PASSWORD}
+      POSTGRES_DB: ${DATABASE}
+    healthcheck:
+      test:
+        [
+          "CMD-SHELL",
+          "sh -c 'pg_isready -U $${POSTGRES_USER} -d $${POSTGRES_DB}'"
+        ]
+      interval: 5s
+      timeout: 5s
+      retries: 10
+    volumes:
+      - plantmd-db:/var/lib/postgresql/data
+
+volumes:
+  plantmd-db:
+  plantmd-imagestore:
